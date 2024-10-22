@@ -1,0 +1,79 @@
+.
+├── app
+│   ├── Console
+│   ├── Exceptions
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   ├── Admin
+│   │   │   │   ├── CategoryController.php
+│   │   │   │   ├── OrderController.php
+│   │   │   │   ├── ProductController.php
+│   │   │   ├── Customer
+│   │   │   │   ├── CartController.php
+│   │   │   │   ├── CheckoutController.php
+│   │   │   │   ├── OrderController.php
+│   │   ├── Middleware
+│   │   ├── Requests
+│   │   │   ├── CategoryRequest.php
+│   │   │   ├── ProductRequest.php
+│   ├── Models
+│   │   ├── Category.php
+│   │   ├── Cart.php
+│   │   ├── CartItem.php
+│   │   ├── Order.php
+│   │   ├── OrderItem.php
+│   │   ├── Product.php
+│   ├── Policies
+│   └── Providers
+├── bootstrap
+├── config
+├── database
+│   ├── factories
+│   ├── migrations
+│   │   ├── create_categories_table.php
+│   │   ├── create_products_table.php
+│   │   ├── create_orders_table.php
+│   │   ├── create_order_items_table.php
+│   │   ├── create_cart_table.php
+│   │   ├── create_cart_items_table.php
+│   ├── seeders
+├── public
+│   ├── css
+│   ├── js
+│   ├── storage
+│   ├── uploads
+├── resources
+│   ├── css
+│   │   └── app.css
+│   ├── js
+│   │   ├── app.js
+│   │   ├── components
+│   │   │   └── reusableModal.js
+│   ├── views
+│   │   ├── admin
+│   │   │   ├── categories
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── create.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   ├── products
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── create.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   ├── orders
+│   │   │   │   └── index.blade.php
+│   │   ├── customer
+│   │   │   ├── cart
+│   │   │   │   └── index.blade.php
+│   │   │   ├── orders
+│   │   │   │   └── index.blade.php
+│   │   └── components
+│   │       └── modal.blade.php
+├── routes
+│   ├── web.php
+│   └── api.php
+├── storage
+│   ├── app
+│   ├── framework
+│   ├── logs
+├── tests
+├── webpack.mix.js

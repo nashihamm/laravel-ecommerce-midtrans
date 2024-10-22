@@ -1,0 +1,60 @@
+version: '2'
+
+services:
+  # Laravel service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8000:8000
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=ecommerce_db_nordspec
+      - DB_USERNAME=root
+      - DB_PASSWORD=millakuu
+    networks:
+      - laravel_network
+
+  # MySQL service
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: millakuu
+      MYSQL_DATABASE: ecommerce_db_nordspec
+      MYSQL_USER: root
+      MYSQL_PASSWORD: millakuu
+    ports:
+      - 3307:3306
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel_network
+
+  # phpMyAdmin (optional)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: millakuu
+    ports:
+      - 8080:80
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
+    driver: bridge
+
+volumes:
+  dbdata:

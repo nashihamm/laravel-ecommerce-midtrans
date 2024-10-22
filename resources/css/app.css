@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Button Variants */
+.btn {
+  @apply px-4 py-2 rounded-md shadow-md font-medium focus:outline-none focus:ring-2 focus:ring-opacity-75;
+}
+
+.btn-primary {
+  @apply bg-gray-800 text-white hover:bg-gray-900 focus:ring-gray-600;
+}
+
+.btn-secondary {
+  @apply bg-gray-700 text-white hover:bg-gray-800 focus:ring-gray-400;
+}
+
+.btn-success {
+  @apply bg-green-700 text-white hover:bg-green-800 focus:ring-green-400;
+}
+
+.btn-danger {
+  @apply bg-red-700 text-white hover:bg-red-800 focus:ring-red-400;
+}
+
+.btn-warning {
+  @apply bg-yellow-700 text-gray-800 hover:bg-yellow-800 focus:ring-yellow-400;
+}
+
+.btn-info {
+  @apply bg-blue-700 text-white hover:bg-blue-800 focus:ring-blue-400;
+}
+
+.btn-light {
+  @apply bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-100;
+}
+
+.btn-dark {
+  @apply bg-gray-700 text-white hover:bg-gray-800 focus:ring-gray-600;
+}

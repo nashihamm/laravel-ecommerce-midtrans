@@ -1,0 +1,14 @@
+<!-- Primary button (default) -->
+<x-button type="submit" text="Submit" />
+
+<!-- Secondary button -->
+<x-button type="button" text="Cancel" variant="secondary" />
+
+<!-- Danger button -->
+<x-button type="submit" text="Delete" variant="danger" />
+
+<!-- Success button -->
+<x-button type="button" text="Save" variant="success" />
+
+<!-- Warning button -->
+<x-button type="button" text="Warning" variant="warning" />
