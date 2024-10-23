@@ -24,8 +24,7 @@ Fitur-fitur: otentikasi user dnegan Breeze, manajemen produk, keranjang belanja,
 
 1. **Clone Repo**: Clone repo ini ke local
    ```bash
-    https://github.com/mangunkars26/ecommerce-midtrans
-
+https://github.com/mangunkars26/laravel-ecommerce-midtrans
 2. Install Dependensi: Masuk ke folder project terus install dependensi via Composer.
 
 3. Konfigurasi Environment: Duplikat file .env.example jadi .env dan sesuaikan konfigurasi database sama detail lainnya.
