@@ -33,21 +33,22 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
     
-        // Simpan gambar jika ada
         if ($request->hasFile('image')) {
             $nameParts = explode(' ', $validated['name']);
             $shortName = implode('_', array_slice($nameParts, 0, 2));
     
             $filename = $shortName . '_' . now()->format('YmdHis') . '.' . $request->file('image')->getClientOriginalExtension();
-            
             $path = $request->file('image')->storeAs('', $filename, 'uploads');
             $validated['image'] = $path;
         }
+    
+        $validated['seller_id'] = Auth::id(); // Ensure this is set
     
         Product::create($validated);
     
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil ditambahkan');
     }
+    
     
 
 

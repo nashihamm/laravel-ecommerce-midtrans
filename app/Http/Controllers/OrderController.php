@@ -12,16 +12,25 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
 
-    public function sellerIndex()
-    {
-        $sellerId = Auth::id();
+    // public function sellerIndex()
+    // {
+    //     $sellerId = Auth::id();
     
-        $orders = Order::whereHas('orderItems.product', function ($query) use ($sellerId) {
-            $query->where('seller_id', $sellerId);
-        })->with('orderItems.product')->get();
+    //     $orders = Order::whereHas('orderItems.product', function ($query) use ($sellerId) {
+    //         $query->where('seller_id', $sellerId);
+    //     })->with('orderItems.product')->get();
     
-        return view('seller.orders.index', compact('orders'));
-    }
+    //     return view('seller.orders.index', compact('orders'));
+    // }
+    public function index()
+{
+    // Ambil semua order dengan relasi ke orderItems dan product
+    $orders = Order::with(['orderItems.product', 'customer'])->get();
+
+    // Kirim data orders ke view
+    return view('seller.orders.index', compact('orders'));
+}
+
     
     
     

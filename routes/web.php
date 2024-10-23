@@ -27,14 +27,12 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
 
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
-    Route::get('orders', [OrderController::class, 'sellerIndex'])->name('orders.index');
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
 
 });
 
 Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer.')->group(function () {
-    // Route::get('/', function () {
-    //     return view('customer.profile.index');
-    // })->name('index');
+
     Route::get('/', [CustomerController::class, 'index'])->name('dashboard');
     // Route::get('/profile', [CustomerController::class, 'showProfile'])->name('customer.profile.index');
 
@@ -65,15 +63,6 @@ Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer
     Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
 
 
-
 });
-
-
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
 
 require __DIR__.'/auth.php';
