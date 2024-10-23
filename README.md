@@ -31,7 +31,10 @@ Fitur-fitur: otentikasi user dnegan Breeze, manajemen produk, keranjang belanja,
 3. Konfigurasi Environment: Duplikat file .env.example jadi .env dan sesuaikan konfigurasi database sama detail lainnya.
 4. Generate Key: Generate application key untuk Laravel.
 5. Set Up Database: Buat database baru di MySQL (sesuaikan dengan nama database yang di .env) lalu migrate tabelnya.
-6. Install Node Modules: Kalo pake Tailwind atau asset lain, jangan lupa install node module-nya terus compile asset. 
+6. Install Node Modules
+        ```bash
+            npm install
+       ```
 7. Jalankan Aplikasinya: Terakhir, jalankan aplikasi.
 8. Selesai: Buka browser terus akses aplikasi di http://localhost:8000.
 
