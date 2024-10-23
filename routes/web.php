@@ -41,18 +41,19 @@ Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer
 
     //cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/add/{order_id}', [CartController::class, 'add'])->name('cart.add');
     Route::delete('/cart/remove/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/update/{cartItem}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
 
-    //checkout
-    Route::get('/checkout/{productId}', [CheckoutController::class, 'checkout'])->name('checkout.index');
 
-    Route::get('/orders', [OrderController::class, 'customerIndex'])->name('order.index');
 
     //proses PESANAN
+    Route::get('/orders', action: [OrderController::class, 'customerIndex'])->name('order.index');
     Route::post('/orders', [OrderController::class, 'store'])->name('order.store');
+
+        //checkout
+    Route::get('/checkout/{order_id}', [CheckoutController::class, 'checkout'])->name('checkout.index');
 
 
     //paymeeeeeennntttt

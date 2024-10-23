@@ -19,6 +19,7 @@
                         <th class="py-3 px-4 text-left">Jumlah</th>
                         <th class="py-3 px-4 text-left">Total Harga</th>
                         <th class="py-3 px-4 text-left">Status</th>
+                        <th>Riwayat Status</th>
                         <th class="py-3 px-4 text-left">Tanggal</th>
                     </tr>
                 </thead>
@@ -36,6 +37,13 @@
                                 <td class="py-2 px-4">{{ $orderItem->quantity }}</td>
                                 <td class="py-2 px-4">Rp {{ number_format($totalItemPrice, 0, ',', '.') }}</td>
                                 <td class="py-2 px-4">{{ $order->status }}</td>
+                                <td>
+                                    <ul>
+                                        @foreach ($order->status_history as $history)
+                                            <li>{{ $history['status'] }} - {{ $history['changed_at'] }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
                                 <td class="py-2 px-4">{{ $order->created_at->format('d-m-Y') }}</td>
                             </tr>
                         @endforeach

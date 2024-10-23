@@ -14,83 +14,68 @@ use Illuminate\Support\Facades\Log;
 class PaymentController extends Controller
 {
     public function process($order_id)
-    {
-        $order = Order::findOrFail($order_id);
-        $user = Auth::user();
+        {
+    $order = Order::findOrFail($order_id);
+    $user = Auth::user();
 
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
-        \Midtrans\Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
-        \Midtrans\Config::$is3ds = env('MIDTRANS_IS_3DS');
+    \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+    \Midtrans\Config::$isProduction = false;
+    \Midtrans\Config::$isSanitized = true;
+    \Midtrans\Config::$is3ds = true;
 
-        $params = array(
-            'transaction_details' => array(
-                'order_id' => $order->id,
-                'gross_amount' => $order->total_amount,
-            ),
-            'customer_details' => array(
-                'first_name' => $user->name,
-                'email' => $user->email,
-            ),
-        );
+    $params = [
+        'transaction_details' => [
+            'order_id' => $order->id,
+            'gross_amount' => $order->total_amount,
+        ],
+        'customer_details' => [
+            'first_name' => $user->name,
+            'email' => $user->email,
+        ],
+    ];
 
-        try {
-            $snapToken = Snap::getSnapToken($params);
+    try {
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-            $transaction = new Transaction();
-            $transaction->user_id = $user->id;
-            $transaction->order_id = $order->id;
-            $transaction->snap_token = $snapToken;
-            $transaction->gross_amount = $order->total_amount;
-            $transaction->save();
+        return view('payment.process', compact('order', 'snapToken'));
 
-            return view('payment.process', compact('order', 'snapToken'));
-
-        } catch (\Exception $e) {
-            Log::error('Midtrans Error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal memproses pembayaran.');
-        }
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal memproses pembayaran.');
     }
+}
 
-    public function paymentSuccess(Request $request)
+public function paymentSuccess(Request $request)
 {
     try {
         $order = Order::findOrFail($request->order_id);
         $transaction = Transaction::where('order_id', $order->id)->firstOrFail();
 
-        if ($request->transaction_status === 'success') {
-            $transaction->transaction_id = $request->transaction_id;
-            $transaction->payment_type = $request->payment_type;
-            $transaction->transaction_status = 'success';
-            $transaction->gross_amount = $request->gross_amount;
-            $transaction->fraud_status = $request->fraud_status;
-            $transaction->transaction_time = $request->transaction_time;
-            $transaction->save();
+        if ($request->transaction_status === 'settlement') {
+            $transaction->update([
+                'transaction_id' => $request->transaction_id,
+                'payment_type' => $request->payment_type,
+                'transaction_status' => 'success',
+                'gross_amount' => $request->gross_amount,
+                'transaction_time' => $request->transaction_time,
+            ]);
+
+            //perbarui status dan riwayat
+            $order->status = 'Dibayar';
+            $order->addStatusToHistory('Dibayar');
+            $order->save();
 
             foreach ($order->orderItems as $item) {
                 $product = $item->product;
-                if ($product->stock >= $item->quantity) {
-                    $product->stock -= $item->quantity;
-                    $product->save();
-                } else {
-                    Log::error('Stok tidak mencukupi untuk produk: ' . $product->name);
-                    return response()->json(['error' => 'Stok tidak mencukupi'], 400);
-                }
+                $product->decrement('stock', $item->quantity);
             }
 
             return response()->json(['success' => true], 200);
-        } else {
-            return response()->json(['error' => 'Status transaksi tidak valid.'], 400);
         }
 
+        return response()->json(['error' => 'Status transaksi tidak valid.'], 400);
     } catch (\Exception $e) {
-        Log::error('Payment Success Error: ' . $e->getMessage());
         return response()->json(['error' => 'Gagal memproses pembayaran.'], 500);
     }
-
-
 }
-
-
 
 }

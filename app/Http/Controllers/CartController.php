@@ -29,9 +29,6 @@ namespace App\Http\Controllers;
             return view('cart.index', compact('cartItems', 'totalPrice', 'totalQuantity'));
         }
 
-                
-                
-
             public function remove($cartItemId)
             {
                 $cartItem = CartItem::findOrFail($cartItemId);

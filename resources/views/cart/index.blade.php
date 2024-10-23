@@ -58,7 +58,7 @@
 
             <div class="mt-8 flex justify-between items-center">
                 <a href="{{ route('home') }}" class="text-sm text-indigo-600 hover:text-indigo-800">Lanjutkan Belanja</a>
-                <a href="{{ route('customer.checkout.index', ['productId' => $cartItems->first()->product->id]) }}" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700">Checkout</a>
+                <a href="{{ route('customer.checkout.index', ['order_id' => $cartItems->first()->product->id]) }}" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700">Checkout</a>
             </div>
         @endif
     </main>

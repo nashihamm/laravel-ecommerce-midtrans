@@ -1,4 +1,29 @@
 <x-customer-app>
+    <main class="container mx-auto py-10">
+        <h1 class="text-3xl font-bold mb-6 text-center">Checkout</h1>
+
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Ringkasan Pesanan</h2>
+            <ul class="mb-4">
+                @foreach($cartItems as $item)
+                    <li class="mb-2">
+                        {{ $item->product->name }} - {{ $item->quantity }} x Rp {{ number_format($item->product->price, 0, ',', '.') }}
+                    </li>
+                @endforeach
+            </ul>
+            <p class="text-lg">Total: Rp {{ number_format($totalPrice, 0, ',', '.') }}</p>
+
+            {{-- Menggunakan $order_id yang dikirim dari controller --}}
+            <a href="{{ route('customer.payment.process', ['order_id' => $order_id]) }}"
+            class="btn btn-success rounded mt-4 inline-block">Bayar</a>
+        </div>
+    </main>
+</x-customer-app>
+
+
+
+
+{{-- <x-customer-app>
     <main class="container mx-auto py-8">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h1 class="text-3xl font-bold mb-6 text-center">Checkout</h1>
@@ -75,73 +100,48 @@
             document.getElementById('total-kuantitas').innerText = totalKuantitas;
         }
 
-
         function tambahKuantitas(cartItemId) {
-    const kuantitasInput = document.getElementById(`kuantitas-${cartItemId}`);
-    const kuantitasBaru = parseInt(kuantitasInput.value) + 1;
+            const kuantitasInput = document.getElementById(`kuantitas-${cartItemId}`);
+            const kuantitasBaru = parseInt(kuantitasInput.value) + 1;
 
-    kuantitasInput.value = kuantitasBaru;
+            kuantitasInput.value = kuantitasBaru;
+            produk[cartItemId].kuantitas = kuantitasBaru;
 
-    produk[cartItemId].kuantitas = kuantitasBaru;
-
-    updateTotal();
-
-    updateCartItem(cartItemId, kuantitasBaru);
-}
-
-function kurangiKuantitas(cartItemId) {
-    const kuantitasInput = document.getElementById(`kuantitas-${cartItemId}`);
-    const kuantitasSekarang = parseInt(kuantitasInput.value);
-
-    if (kuantitasSekarang > 1) {
-        const kuantitasBaru = kuantitasSekarang - 1;
-
-        kuantitasInput.value = kuantitasBaru;
-
-        produk[cartItemId].kuantitas = kuantitasBaru;
-
-        updateTotal();
-
-        updateCartItem(cartItemId, kuantitasBaru);
-    }
-}
-
-function updateTotal() {
-    let totalHarga = 0;
-    let totalKuantitas = 0;
-
-    Object.keys(produk).forEach(cartItemId => {
-        const kuantitas = produk[cartItemId].kuantitas;
-        const harga = produk[cartItemId].harga;
-
-        totalHarga += harga * kuantitas;
-        totalKuantitas += kuantitas;
-    });
-
-    document.getElementById('total-harga').innerText = 'Rp ' + totalHarga.toLocaleString('id-ID');
-    document.getElementById('total-ringkasan').innerText = 'Rp ' + totalHarga.toLocaleString('id-ID');
-    document.getElementById('total-kuantitas').innerText = totalKuantitas;
-}
-
-function updateCartItem(cartItemId, newQuantity) {
-    fetch(`/cart/update/${cartItemId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body: JSON.stringify({
-            quantity: newQuantity,
-        }),
-    }).then(response => {
-        if (!response.ok) {
-            console.error('Gagal mengupdate kuantitas');
+            updateTotal();
+            updateCartItem(cartItemId, kuantitasBaru);
         }
-    }).catch(error => {
-        console.error('Error:', error);
-    });
-}
 
+        function kurangiKuantitas(cartItemId) {
+            const kuantitasInput = document.getElementById(`kuantitas-${cartItemId}`);
+            const kuantitasSekarang = parseInt(kuantitasInput.value);
 
+            if (kuantitasSekarang > 1) {
+                const kuantitasBaru = kuantitasSekarang - 1;
+                kuantitasInput.value = kuantitasBaru;
+                produk[cartItemId].kuantitas = kuantitasBaru;
+
+                updateTotal();
+                updateCartItem(cartItemId, kuantitasBaru);
+            }
+        }
+
+        function updateCartItem(cartItemId, newQuantity) {
+            fetch(`/cart/update/${cartItemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({
+                    quantity: newQuantity,
+                }),
+            }).then(response => {
+                if (!response.ok) {
+                    console.error('Gagal mengupdate kuantitas');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
     </script>
-</x-customer-app>
+</x-customer-app> --}}

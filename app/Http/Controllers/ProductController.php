@@ -93,19 +93,22 @@ class ProductController extends Controller
     }
 
     public function show($id)
-{
-    $product = Product::findOrFail($id);
-
-    $cart = Cart::where('user_id', Auth::user()->id)->first();
-    $cartItems = $cart ? $cart->cartItems : collect();
-
-    return view('products.show', [
-        'product' => $product,
-        'cartItems' => $cartItems,
-    ]);
-}
-
-
+    {
+        $product = Product::where('id', $id)->firstOrFail();
+    
+        if (Auth::check()) {
+            $cart = Cart::where('user_id', Auth::user()->id)->first();
+            $cartItems = $cart ? $cart->cartItems : collect();
+        } else {
+            $cartItems = collect();
+        }
+    
+        return view('products.show', [
+            'product' => $product,
+            'cartItems' => $cartItems,
+        ]);
+    }
+    
     public function destroy(Product $product)
     {
         $product->delete();
