@@ -1,3 +1,4 @@
+//baguus
 <?php
 namespace App\Http\Controllers;
 
@@ -48,7 +49,7 @@ namespace App\Http\Controllers;
                 ]);
             
                 $cartItem = CartItem::where('cart_id', $cart->id)
-                    ->where('product_id', $product->id)
+                    ->where('product_id', $product->id) 
                     ->first();
             
                 if ($cartItem) {
