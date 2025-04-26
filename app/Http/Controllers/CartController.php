@@ -1,4 +1,3 @@
-//baguus
 <?php
 namespace App\Http\Controllers;
 
